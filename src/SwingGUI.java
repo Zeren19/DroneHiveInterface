@@ -13,13 +13,20 @@ public class SwingGUI {
         JButton lock = new JButton("Unlock Self-destruct");
         button.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
         lock.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-        lock.setAlignmentX(220);
+
+        JButton toggleNightMode = new JButton("Toggle Night Mode");
+
+        button.setBackground(Color.black);
+        lock.setBackground(Color.black);
+        toggleNightMode.setBackground(Color.black);
 
         JPanel panel = new JPanel();
         panel.setBorder(BorderFactory.createEmptyBorder(300,300,300,300));  //Set Borders in pixels
-        panel.setLayout(new GridLayout(0,1));
+        panel.setLayout(new GridLayout(2,2));
         panel.add(button);
         panel.add(lock);
+        panel.add(toggleNightMode);
+
 
         lock.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -38,12 +45,24 @@ public class SwingGUI {
                 }
             }
         );
+        toggleNightMode.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(toggleNightMode.getBackground()== Color.white){  //invert button and panel color for contrast
+                    toggleNightMode.setBackground(Color.black);
+                    panel.setBackground(Color.white);
+                }
+                else {
+                    toggleNightMode.setBackground(Color.white);
+                    panel.setBackground(Color.black);
+                }
 
+            }
+        });
+        // For future use: Change text with simple icon that inverts too and place it in the corner of the window.
         frame.add(panel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Drone Controller");
         frame.pack();
-        frame.setLocation(400,80);
         frame.setVisible(true);
     }
 }

@@ -1,9 +1,9 @@
 import java.io.IOException;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        APIRequest.test();
-        //new SwingGUI();
+    public static void main(String[] args) {
+        //APIRequest.test();
+        new SwingGUI();
     }
 }
 /* The APIRequest class should request how many drones exist

@@ -8,13 +8,12 @@ import java.io.InputStreamReader;
 import java.io.InputStream;
 
 import org.json.simple.JSONObject;
-import org.json.simple.JSONValue;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 //Used to parse server response into a string
 
 public class APIRequest {
-    public static void test() throws IOException {
+    public static void DownloadData() throws IOException {
         final String TOKEN = "TOKEN 984c81a70eda5e46251f28a2d496dd811fb42697";
         try {
             int responseCode;
@@ -51,25 +50,47 @@ public class APIRequest {
                 System.out.println(line);
                 response.append(line);
             }
-            String JSONStringObject = response.toString();
+            //String JSONStringObject = response.toString();
             JSONParser parser = new JSONParser();
-            JSONObject droneDataJSON = (JSONObject) parser.parse(response.toString());
+            JSONObject generalDroneDataJSON = (JSONObject) parser.parse(response.toString());
 
-            System.out.println(JSONStringObject);
-            System.out.println(droneDataJSON.get("count"));
-            /*for (int i=0; i<30; i++){
+            //System.out.println(JSONStringObject);
+            String amountOfDrones = generalDroneDataJSON.get("count").toString();
+            System.out.println(amountOfDrones);
 
+            for (int i = 0; i< Integer.parseInt(amountOfDrones); i++){
+            /*
+            URL droneData = new URL("http://dronesim.facets-labs.com/api/dronedynamics/"+i);
+            connection = (HttpURLConnection) droneData.openConnection();
+            connection.setRequestProperty("Authorization", TOKEN);
+            connection.setRequestMethod("GET");
+            inputstream = connection.getInputStream();
+            reader = new BufferedReader(new InputStreamReader(inputstream));
+            response =  new StringBuilder();
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+                response.append(line);
             }
-            */
+                parser.reset();
+                JSONObject droneDataJSON = (JSONObject) parser.parse(response.toString());
+                droneDataJSON.get("name");
+                drone i = new drone(droneDataJSON.get("name"), droneDataJSON.get("id"));
+            }
+
+             */
+                System.out.println(i);
             connection.disconnect();
+            }
+        }
+        catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         catch (MalformedURLException e) {
-            System.out.println("Malformed URL Exception raised");
-        }
-        catch (IOException e) {
-            System.out.println("IO Exception raised");
-        } catch (ParseException e) {
             throw new RuntimeException(e);
         }
     }
 }
+//dynamics
+//drones
+//types
+//create json from these

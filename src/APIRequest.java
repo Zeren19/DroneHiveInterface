@@ -60,6 +60,10 @@ public class APIRequest {
 
             for (int i = 0; i< Integer.parseInt(amountOfDrones); i++){
             /*
+            Call this http://dronesim.facets-labs.com/api/dronedynamics/?limit=10&offset=10 until offset = max
+            take the jsonobject, add the dronedynamic to list of data of one drone
+            COMPARE JSONOBJECT WITH TYPE IF SAME; ADD TO ARRAY OF DRONE DYNAMICS FOR THAT DRONE
+
             URL droneData = new URL("http://dronesim.facets-labs.com/api/dronedynamics/"+i);
             connection = (HttpURLConnection) droneData.openConnection();
             connection.setRequestProperty("Authorization", TOKEN);
@@ -75,9 +79,7 @@ public class APIRequest {
                 JSONObject droneDataJSON = (JSONObject) parser.parse(response.toString());
                 droneDataJSON.get("name");
                 drone i = new drone(droneDataJSON.get("name"), droneDataJSON.get("id"));
-            }
-
-             */
+                */
                 System.out.println(i);
             connection.disconnect();
             }

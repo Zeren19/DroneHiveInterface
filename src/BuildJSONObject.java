@@ -18,11 +18,10 @@ public class BuildJSONObject {
 
         String line;
         while ((line = reader.readLine()) != null) {
-            System.out.println(" ");
             System.out.println(line);
+            //Debugging ^
             response.append(line);
         }
-        //String JSONStringObject = response.toString();
         JSONParser parser = new JSONParser();
         return (JSONObject) parser.parse(response.toString());
     }

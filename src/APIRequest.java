@@ -2,12 +2,9 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.MalformedURLException;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.InputStream;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 //Used to parse server response into a string
 
@@ -29,8 +26,6 @@ public class APIRequest {
             else {
                 System.out.println("Success! Code:" + responseCode);
             }
-
-            System.out.println(responseCode);
             connection.disconnect();
             //CONNECTION TEST
 
@@ -42,36 +37,33 @@ public class APIRequest {
             //Use BuildJSONObject to build the JSONObject via the desired API return solution.
             String amountOfDrones = BuildJSONObject.Build(connection).get("count").toString();
             System.out.println(amountOfDrones);
+            String URLString = "http://dronesim.facets-labs.com/api/dronedynamics/?format=json&offset=0";
 
-            for (int i = 0; i< Integer.parseInt(amountOfDrones); i++){
-                URL getDroneDynamics = new URL("http://dronesim.facets-labs.com/api/dronedynamics/?limit=10&offset=10");
+            while (true){
+                URL getDroneDynamics = new URL(URLString);
                 connection = (HttpURLConnection) getDroneDynamics.openConnection();
                 connection.setRequestProperty("Authorization", TOKEN);
                 connection.setRequestMethod("GET");
 
-            /*
-            Call this http://dronesim.facets-labs.com/api/dronedynamics/?limit=10&offset=10 until offset = max
-            take the jsonobject, add the dronedynamic to list of data of one drone
-            COMPARE JSONOBJECT WITH TYPE IF SAME; ADD TO list OF DRONE DYNAMICS FOR THAT DRONE
+                if (responseCode != 200) {
+                    System.out.println("Exception occurred with response code: " + responseCode);
+                }
+                else {
+                    System.out.println("Success! Code:" + responseCode);
+                }
+                connection.disconnect();
+                JSONObject DroneDynamics = BuildJSONObject.Build(connection);
+                JSONArray results = (JSONArray) DroneDynamics.get("results");
+                for (Object o : results) {
+                    JSONObject obj = (JSONObject) o;
+                    System.out.println(obj.get("last_seen").toString());
+                }
+                connection.disconnect();
 
-            URL droneData = new URL("http://dronesim.facets-labs.com/api/dronedynamics/"+i);
-            connection = (HttpURLConnection) droneData.openConnection();
-            connection.setRequestProperty("Authorization", TOKEN);
-            connection.setRequestMethod("GET");
-            inputstream = connection.getInputStream();
-            reader = new BufferedReader(new InputStreamReader(inputstream));
-            response =  new StringBuilder();
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-                response.append(line);
-            }
-                parser.reset();
-                JSONObject droneDataJSON = (JSONObject) parser.parse(response.toString());
-                droneDataJSON.get("name");
-                drone i = new drone(droneDataJSON.get("name"), droneDataJSON.get("id"));
-                */
-                System.out.println(i);
-            connection.disconnect();
+                if (DroneDynamics.get("next") == null){
+                    break;
+                };
+                URLString = DroneDynamics.get("next").toString();
             }
         }
         catch (ParseException | MalformedURLException e) {

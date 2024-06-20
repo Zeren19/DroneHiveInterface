@@ -12,6 +12,7 @@ public class drone {
     private int batteryCharge;
     private String lastActiveDate;
     private boolean status;
+    //private class[] DroneDynamics;
 
     public drone(long id, String name, String manufacturerName, int weight,int speed, String roll, String pitch, String yaw, String yCoord, String xCoord, int batteryCharge, String lastActiveDate, boolean status) {
         this.id = id;

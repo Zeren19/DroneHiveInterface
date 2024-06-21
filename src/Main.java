@@ -2,7 +2,7 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        APIRequest.DownloadData();
-        //new SwingGUI();
+        //APIRequest.DownloadData();
+        new SwingGUI();
     }
 }

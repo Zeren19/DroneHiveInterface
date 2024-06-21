@@ -6,7 +6,15 @@ import java.awt.event.ActionListener;
 public class SwingGUI {
     public SwingGUI(){
         JFrame frame = new JFrame();
+        JFrame droneListPanel = new JFrame();
+        JFrame droneListTypes = new JFrame();
+        JFrame sidePanel = new JFrame();
+        //Side panel
+        JButton updateData = new JButton("Update data.");
+        JButton listDrones = new JButton("Drone list.");
+        JButton listTypes = new JButton("Drone types.");
 
+        //Side panel Buttons
         JButton button = new JButton("Self-destruct");
         button.setEnabled(false);
         button.setBorderPainted(false);

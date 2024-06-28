@@ -21,6 +21,7 @@ public class BuildJSONObject {
             //System.out.println(line);
             //Debugging ^
             response.append(line);
+            response.append('\n');
         }
         reader.close();
         JSONParser parser = new JSONParser();

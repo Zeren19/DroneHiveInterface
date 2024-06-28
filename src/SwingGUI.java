@@ -32,20 +32,22 @@ public class SwingGUI {
         JPanel panel = new JPanel();
         frame.setSize(400, 300);
         frame.setMinimumSize(new Dimension(400, 300));
-        frame.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.weighty = 1.0;
-        gbc.anchor = GridBagConstraints.WEST;
-        gbc.insets = new Insets(0, 0, 0, 0);
-        gbc.fill = GridBagConstraints.NONE;
+
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints SidePanelGBC = new GridBagConstraints();
+
+        SidePanelGBC.gridx = 0;
+        SidePanelGBC.gridy = 0;
+        SidePanelGBC.weightx = 1.0;
+        SidePanelGBC.weighty = 1.0;
+        SidePanelGBC.anchor = GridBagConstraints.WEST;
+        SidePanelGBC.insets = new Insets(0, 0, 0, 0);
+        SidePanelGBC.fill = GridBagConstraints.NONE;
 
         JButton toggleNightMode = new JButton("Toggle Night Mode");
         toggleNightMode.setBackground(Color.black);
-        panel.add(toggleNightMode, gbc);
+        panel.add(toggleNightMode, SidePanelGBC);
 
         toggleNightMode.addActionListener(e -> {
             if(toggleNightMode.getBackground()== Color.white){  //invert button and panel color for contrast
@@ -64,7 +66,6 @@ public class SwingGUI {
                 panel.updateUI();
                 sidePanel.updateUI();
             }
-
         });
         // For future use: Change text with simple icon that inverts too and place it in the corner of the window.
 
@@ -77,10 +78,13 @@ public class SwingGUI {
         });
 
         frame.add(panel);
-        frame.add(sidePanel, gbc);
+        frame.add(sidePanel, SidePanelGBC);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Drone Dynamics Monitor");
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
+
+        ImageIcon icon = new ImageIcon("icon.png");
+        frame.setIconImage(icon.getImage());
     }
 }

@@ -1,3 +1,4 @@
+import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -16,7 +17,7 @@ public class APIRequest {
             int responseCode;
             URL droneurl = new URL("http://dronesim.facets-labs.com/api/drones/?format=api");
             HttpURLConnection connection = (HttpURLConnection) droneurl.openConnection();
-            connection.setRequestProperty("Authorization", TOKEN);
+            //connection.setRequestProperty("Authorization", TOKEN);
             connection.setRequestMethod("GET");
 
             //Evaluate whether connection was successful
@@ -32,33 +33,47 @@ public class APIRequest {
 
             URL droneAmountUrl = new URL("http://dronesim.facets-labs.com/api/drones/?format=json");
             connection = (HttpURLConnection) droneAmountUrl.openConnection();
-            connection.setRequestProperty("Authorization", TOKEN);
+           //connection.setRequestProperty("Authorization", TOKEN);
             connection.setRequestMethod("GET");
 
             //Use BuildJSONObject to build the JSONObject via the desired API return solution.
             String amountOfDrones = BuildJSONObject.Build(connection).get("count").toString();
             System.out.println(amountOfDrones);
             String DroneDynamicsURL = "http://dronesim.facets-labs.com/api/dronedynamics/?format=json&offset=0";
-            JSONObject DroneDynamicsDatabase = new JSONObject();
+            File DroneDynamicsDatabase = new File("SortedDatabase.json");
             while (true){
                 URL getDroneDynamics = new URL(DroneDynamicsURL);
                 connection = (HttpURLConnection) getDroneDynamics.openConnection();
-                connection.setRequestProperty("Authorization", TOKEN);
+                //connection.setRequestProperty("Authorization", TOKEN);
                 connection.setRequestMethod("GET");
 
                 JSONObject DroneDynamics = BuildJSONObject.Build(connection);
                 JSONArray results = (JSONArray) DroneDynamics.get("results");
+                JSONObject obj = null;
+                JSONObject currentObj = null;
+
+                //Loops through the 10 drones in results
+                int counter = 0;
                 for (Object o : results) {
-                    JSONObject obj = (JSONObject) o;
-                    System.out.println(obj.get("last_seen").toString());
+                    obj = (JSONObject) o;
+                    currentObj = (JSONObject) results.get(counter);
+
+                    FileWriter fileWriter = new FileWriter("SortedDatabase.json", true);
+
+                        currentObj.get("drone").toString();
+
+                        fileWriter.append(currentObj.get("drone").toJSONString());
+
+                    counter++; //ID to access each object separately
                 }
+                //Appends the testDB with objects
                 FileWriter fileWriter = new FileWriter("TESTDatabase.json", true);
-                    fileWriter.append(results.toJSONString());
+                    fileWriter.append(obj.toJSONString());
                     fileWriter.append("\n");
                     fileWriter.close();
                     connection.disconnect();
                 System.out.println(DroneDynamics.get("next").toString());
-                if (DroneDynamics.get("next").toString().equals("http://dronesim.facets-labs.com/api/dronedynamics/?format=json&limit=10&offset=30"))
+                if (DroneDynamics.get("next").toString().equals("http://dronesim.facets-labs.com/api/dronedynamics/?format=json&limit=10&offset=10"))
                     break;
                 //^ DEBUG Stop
                 if (DroneDynamics.get("next") == null)

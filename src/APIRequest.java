@@ -58,12 +58,11 @@ public class APIRequest {
                     obj = (JSONObject) o;
                     currentObj = (JSONObject) results.get(counter);
 
-                    FileWriter fileWriter = new FileWriter("SortedDatabase.json", true);
-
+                    /*FileWriter fileWriter = new FileWriter("SortedDatabase.json", true);
                         currentObj.get("drone").toString();
-
-                        fileWriter.append(currentObj.get("drone").toJSONString());
-
+                        fileWriter.append((currentObj.get("drone")).toJSONString());
+*/
+                    System.out.println("Drone: " + currentObj.get("drone"));
                     counter++; //ID to access each object separately
                 }
                 //Appends the testDB with objects
